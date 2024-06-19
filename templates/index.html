@@ -10,41 +10,157 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Classroom Optimization</h1>
-        <form action="/optimize" method="post" class="mt-4">
-            <div id="class-schedule">
-                <div class="form-row align-items-center mb-2 class-entry">
-                    <div class="col-sm-5">
-                        <label>Start Time:</label>
-                        <input type="number" class="form-control" name="start[]" required>
+        <form action="/optimize" method="post" class="mt-4" onsubmit="return validateForm()">
+            <div id="course-schedule">
+                <h3>Courses</h3>
+                <div class="form-row align-items-center mb-2 course-entry">
+                    <div class="col-sm-3">
+                        <label>Course Name:</label>
+                        <input type="text" class="form-control" name="course[]" required>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-2">
+                        <label>Start Time:</label>
+                        <input type="number" class="form-control" name="start[]" min="7" max="16" required oninput="updateAmPm(this)">
+                        <small class="form-text text-muted start-ampm"></small>
+                    </div>
+                    <div class="col-sm-2">
                         <label>End Time:</label>
-                        <input type="number" class="form-control" name="end[]" required>
+                        <input type="number" class="form-control" name="end[]" min="7" max="16" required oninput="updateAmPm(this)">
+                        <small class="form-text text-muted end-ampm"></small>
+                    </div>
+                    <div class="col-sm-3">
+                        <label>Lecturer:</label>
+                        <input type="text" class="form-control" name="lecturer[]" required>
                     </div>
                 </div>
             </div>
             <div class="btns">
-            <button type="button" class="btn btn-primary mb-2" onclick="addClass()">Add Another Class</button>
-            <button type="submit" class="btn btn-success mb-2">Optimize Schedule</button>
+                <button type="button" class="btn btn-primary mb-2" onclick="addCourse()">Add Another Course</button>
             </div>
+            <div id="classrooms">
+                <h3>Classrooms</h3>
+                <div class="form-row align-items-center mb-2 classroom-entry">
+                    <div class="col-sm-6">
+                        <label>Classroom Name:</label>
+                        <input type="text" class="form-control" name="classroom[]" required>
+                    </div>
+                </div>
+            </div>
+            <div class="btns">
+                <button type="button" class="btn btn-primary mb-2" onclick="addClassroom()">Add Another Classroom</button>
+            </div>
+            <div id="lecturers">
+                <h3>Lecturers</h3>
+                <div class="form-row align-items-center mb-2 lecturer-entry">
+                    <div class="col-sm-4">
+                        <label>Lecturer Name:</label>
+                        <input type="text" class="form-control" name="lecturer_name[]" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Available Hours (e.g., [(8, 12), (13, 17)]):</label>
+                        <input type="text" class="form-control" name="lecturer_hours[]" required>
+                    </div>
+                </div>
+            </div>
+            <div class="btns">
+                <button type="button" class="btn btn-primary mb-2" onclick="addLecturer()">Add Another Lecturer</button>
+            </div>
+            <button type="submit" class="btn btn-success mb-2">Optimize Schedule</button>
         </form>
     </div>
     <script>
-        function addClass() {
-            const classSchedule = document.getElementById('class-schedule');
-            const newClassEntry = document.createElement('div');
-            newClassEntry.className = 'form-row align-items-center mb-2 class-entry';
-            newClassEntry.innerHTML = `
-                <div class="col-sm-5">
-                    <label>Start Time:</label>
-                    <input type="number" class="form-control" name="start[]" required>
+        function addCourse() {
+            const courseSchedule = document.getElementById('course-schedule');
+            const newCourseEntry = document.createElement('div');
+            newCourseEntry.className = 'form-row align-items-center mb-2 course-entry';
+            newCourseEntry.innerHTML = `
+                <div class="col-sm-3">
+                    <label>Course Name:</label>
+                    <input type="text" class="form-control" name="course[]" required>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-2">
+                    <label>Start Time:</label>
+                    <input type="number" class="form-control" name="start[]" min="7" max="16" required oninput="updateAmPm(this)">
+                    <small class="form-text text-muted start-ampm"></small>
+                </div>
+                <div class="col-sm-2">
                     <label>End Time:</label>
-                    <input type="number" class="form-control" name="end[]" required>
+                    <input type="number" class="form-control" name="end[]" min="7" max="16" required oninput="updateAmPm(this)">
+                    <small class="form-text text-muted end-ampm"></small>
+                </div>
+                <div class="col-sm-3">
+                    <label>Lecturer:</label>
+                    <input type="text" class="form-control" name="lecturer[]" required>
                 </div>
             `;
-            classSchedule.appendChild(newClassEntry);
+            courseSchedule.appendChild(newCourseEntry);
+        }
+
+        function addClassroom() {
+            const classrooms = document.getElementById('classrooms');
+            const newClassroomEntry = document.createElement('div');
+            newClassroomEntry.className = 'form-row align-items-center mb-2 classroom-entry';
+            newClassroomEntry.innerHTML = `
+                <div class="col-sm-6">
+                    <label>Classroom Name:</label>
+                    <input type="text" class="form-control" name="classroom[]" required>
+                </div>
+            `;
+            classrooms.appendChild(newClassroomEntry);
+        }
+
+        function addLecturer() {
+            const lecturers = document.getElementById('lecturers');
+            const newLecturerEntry = document.createElement('div');
+            newLecturerEntry.className = 'form-row align-items-center mb-2 lecturer-entry';
+            newLecturerEntry.innerHTML = `
+                <div class="col-sm-4">
+                    <label>Lecturer Name:</label>
+                    <input type="text" class="form-control" name="lecturer_name[]" required>
+                </div>
+                <div class="col-sm-6">
+                    <label>Available Hours (e.g., [(8, 12), (13, 17)]):</label>
+                    <input type="text" class="form-control" name="lecturer_hours[]" required>
+                </div>
+            `;
+            lecturers.appendChild(newLecturerEntry);
+        }
+
+        function updateAmPm(input) {
+            const value = parseInt(input.value);
+            let ampm = '';
+            if (value >= 7 && value <= 11) {
+                ampm = 'AM';
+            } else if (value >= 12 && value <= 16) {
+                ampm = 'PM';
+            }
+            if (input.name === 'start[]') {
+                input.nextElementSibling.textContent = ampm;
+            } else if (input.name === 'end[]') {
+                input.nextElementSibling.textContent = ampm;
+            }
+        }
+
+        function validateForm() {
+            const startTimes = document.getElementsByName('start[]');
+            const endTimes = document.getElementsByName('end[]');
+            for (let i = 0; i < startTimes.length; i++) {
+                const startTime = parseInt(startTimes[i].value);
+                const endTime = parseInt(endTimes[i].value);
+                if (startTime < 7 || startTime > 16) {
+                    alert('Start times must be between 7 and 16.');
+                    return false;
+                }
+                if (endTime < 7 || endTime > 16) {
+                    alert('End times must be between 7 and 16.');
+                    return false;
+                }
+                if (startTime >= endTime) {
+                    alert('End time must be later than start time.');
+                    return false;
+                }
+            }
+            return true;
         }
     </script>
 </body>

@@ -10,22 +10,53 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Optimized Classroom Schedule</h1>
+        {% for classroom in classrooms %}
+        <h3>{{ classroom.name }}</h3>
         <table class="table table-bordered mt-4">
             <thead>
                 <tr>
+                    <th>Course Name</th>
                     <th>Start Time</th>
                     <th>End Time</th>
+                    <th>Lecturer</th>
                 </tr>
             </thead>
             <tbody>
-                {% for cls in schedule %}
+                {% for course in classroom.schedule %}
                 <tr>
-                    <td>{{ cls.start }}</td>
-                    <td>{{ cls.end }}</td>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.start }}</td>
+                    <td>{{ course.end }}</td>
+                    <td>{{ course.lecturer }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% endfor %}
+        <h3>Lecturers Schedule</h3>
+        {% for lecturer in lecturers %}
+        <h4>{{ lecturer.name }}</h4>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Classroom</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in lecturer.courses %}
+                <tr>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.start }}</td>
+                    <td>{{ course.end }}</td>
+                    <td>{{ course.classroom }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
         <div class="text-center mt-4">
             <a href="/" class="btn btn-primary">Back to Input</a>
         </div>
