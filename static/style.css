@@ -1,0 +1,41 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+.btns{
+    max-width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn-primary{
+    margin-right: 30px;
+}
+.btn-success{
+    margin-left: 30px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.btn-primary, .btn-success {
+    width: 100%;
+}
+
+.container {
+    max-width: 600px;
+}
+
+.class-entry {
+    margin-bottom: 10px;
+}

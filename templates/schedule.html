@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimized Schedule</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Optimized Classroom Schedule</h1>
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cls in schedule %}
+                <tr>
+                    <td>{{ cls.start }}</td>
+                    <td>{{ cls.end }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary">Back to Input</a>
+        </div>
+    </div>
+</body>
+</html>
