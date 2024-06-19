@@ -10,48 +10,24 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Optimized Classroom Schedule</h1>
-        {% for classroom in classrooms %}
-        <h3>{{ classroom.name }}</h3>
+        {% for classroom, schedule in classrooms %}
+        <h2>{{ classroom }}</h2>
         <table class="table table-bordered mt-4">
             <thead>
                 <tr>
-                    <th>Course Name</th>
+                    <th>Course</th>
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Lecturer</th>
                 </tr>
             </thead>
             <tbody>
-                {% for course in classroom.schedule %}
+                {% for course in schedule %}
                 <tr>
                     <td>{{ course.name }}</td>
-                    <td>{{ course.start }}</td>
-                    <td>{{ course.end }}</td>
+                    <td>{{ course.start }}{% if course.start < 12 %} AM{% else %} PM{% endif %}</td>
+                    <td>{{ course.end }}{% if course.end < 12 %} AM{% else %} PM{% endif %}</td>
                     <td>{{ course.lecturer }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% endfor %}
-        <h3>Lecturers Schedule</h3>
-        {% for lecturer in lecturers %}
-        <h4>{{ lecturer.name }}</h4>
-        <table class="table table-bordered mt-4">
-            <thead>
-                <tr>
-                    <th>Course Name</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Classroom</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for course in lecturer.courses %}
-                <tr>
-                    <td>{{ course.name }}</td>
-                    <td>{{ course.start }}</td>
-                    <td>{{ course.end }}</td>
-                    <td>{{ course.classroom }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

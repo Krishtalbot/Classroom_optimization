@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -20,7 +20,6 @@ class Lecturer:
         self.available_hours = eval(available_hours)  # convert string to list of tuples
 
 def classroom_optimization(courses, classrooms, lecturers):
-    courses.sort(key=lambda x: x.end)
     for course in courses:
         for lecturer in lecturers:
             if lecturer.name == course.lecturer:
@@ -32,7 +31,7 @@ def classroom_optimization(courses, classrooms, lecturers):
                     break
 
     optimized_classrooms = [(classroom.name, classroom.schedule) for classroom in classrooms]
-    return optimized_classrooms, lecturers
+    return optimized_classrooms
 
 @app.route('/')
 def index():
@@ -61,7 +60,7 @@ def optimize():
     for name, hours in zip(lecturer_names, lecturer_hours):
         lecturers.append(Lecturer(name, hours))
 
-    optimized_classrooms, optimized_lecturers = classroom_optimization(courses, classrooms, lecturers)
+    optimized_classrooms = classroom_optimization(courses, classrooms, lecturers)
     return render_template('schedule.html', classrooms=optimized_classrooms)
 
 if __name__ == '__main__':
