@@ -9,32 +9,26 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Optimized Classroom Schedule</h1>
-        {% for classroom, schedule in classrooms %}
-        <h2>{{ classroom }}</h2>
-        <table class="table table-bordered mt-4">
-            <thead>
-                <tr>
-                    <th>Course</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Lecturer</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for course in schedule %}
-                <tr>
-                    <td>{{ course.name }}</td>
-                    <td>{{ course.start }}{% if course.start < 12 %} AM{% else %} PM{% endif %}</td>
-                    <td>{{ course.end }}{% if course.end < 12 %} AM{% else %} PM{% endif %}</td>
-                    <td>{{ course.lecturer }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% endfor %}
-        <div class="text-center mt-4">
-            <a href="/" class="btn btn-primary">Back to Input</a>
+        <h1 class="text-center">Optimized Schedule</h1>
+        <div class="row mt-4">
+            {% for classroom, schedule in classrooms %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ classroom }}</h5>
+                            <ul class="list-group list-group-flush">
+                                {% for course in schedule %}
+                                    <li class="list-group-item">
+                                        <strong>{{ course.name }}</strong><br>
+                                        Lecturer: {{ course.lecturer }}<br>
+                                        Time: {{ course.start }}:00 - {{ course.end }}:00
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </body>

@@ -7,37 +7,28 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container {
     max-width: 800px;
+}
+
+.box {
     background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 h1 {
-    margin-bottom: 30px;
     color: #007bff;
-}
-
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-}
-
-.btns {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-bottom: 20px;
 }
 
 .btn-primary, .btn-success {
-    width: 48%;
+    width: 100%;
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -61,33 +52,17 @@ label {
     background-color: #218838;
 }
 
-.table {
-    margin-top: 20px;
-    width: 100%;
-    border-collapse: collapse;
+.form-row {
+    margin-bottom: 10px;
 }
 
-.table th, .table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
-}
-
-#course-schedule, #classrooms, #lecturers {
-    margin-bottom: 30px;
-}
-
-.course-entry, .classroom-entry, .lecturer-entry {
-    margin-bottom: 20px;
+.scrollable {
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 @media (max-width: 768px) {
-    .btn-primary, .btn-success {
-        width: 100%;
-        margin: 10px 0;
-    }
-
-    .btns {
-        flex-direction: column;
+    .box {
+        padding: 15px;
     }
 }

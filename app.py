@@ -17,18 +17,23 @@ class Classroom:
 class Lecturer:
     def __init__(self, name, available_hours):
         self.name = name
-        self.available_hours = eval(available_hours)  # convert string to list of tuples
+        self.available_hours = eval(available_hours)  # Convert string to list of tuples
 
 def classroom_optimization(courses, classrooms, lecturers):
+    optimized_classrooms = []
+
     for course in courses:
+        assigned = False
         for lecturer in lecturers:
             if lecturer.name == course.lecturer:
                 if any(course.start >= a[0] and course.end <= a[1] for a in lecturer.available_hours):
                     for classroom in classrooms:
                         if all(not (course.start < c.end and course.end > c.start) for c in classroom.schedule):
                             classroom.schedule.append(course)
+                            assigned = True
                             break
-                    break
+                    if assigned:
+                        break
 
     optimized_classrooms = [(classroom.name, classroom.schedule) for classroom in classrooms]
     return optimized_classrooms
@@ -39,29 +44,33 @@ def index():
 
 @app.route('/optimize', methods=['POST'])
 def optimize():
-    courses = []
-    classrooms = []
-    lecturers = []
+    try:
+        courses = []
+        classrooms = []
+        lecturers = []
 
-    course_names = request.form.getlist('course[]')
-    start_times = request.form.getlist('start[]')
-    end_times = request.form.getlist('end[]')
-    lecturer_names = request.form.getlist('lecturer[]')
-    
-    for name, start, end, lecturer in zip(course_names, start_times, end_times, lecturer_names):
-        courses.append(Course(name, int(start), int(end), lecturer))
-    
-    classroom_names = request.form.getlist('classroom[]')
-    for name in classroom_names:
-        classrooms.append(Classroom(name))
-    
-    lecturer_names = request.form.getlist('lecturer_name[]')
-    lecturer_hours = request.form.getlist('lecturer_hours[]')
-    for name, hours in zip(lecturer_names, lecturer_hours):
-        lecturers.append(Lecturer(name, hours))
+        course_names = request.form.getlist('course[]')
+        start_times = request.form.getlist('start[]')
+        end_times = request.form.getlist('end[]')
+        lecturer_names = request.form.getlist('lecturer[]')
+        
+        for name, start, end, lecturer in zip(course_names, start_times, end_times, lecturer_names):
+            courses.append(Course(name, int(start), int(end), lecturer))
+        
+        classroom_names = request.form.getlist('classroom[]')
+        for name in classroom_names:
+            classrooms.append(Classroom(name))
+        
+        lecturer_names = request.form.getlist('lecturer_name[]')
+        lecturer_hours = request.form.getlist('lecturer_hours[]')
+        for name, hours in zip(lecturer_names, lecturer_hours):
+            lecturers.append(Lecturer(name, hours))
 
-    optimized_classrooms = classroom_optimization(courses, classrooms, lecturers)
-    return render_template('schedule.html', classrooms=optimized_classrooms)
+        optimized_classrooms = classroom_optimization(courses, classrooms, lecturers)
+        return render_template('schedule.html', classrooms=optimized_classrooms)
+
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
 
 if __name__ == '__main__':
     app.run(debug=True)
